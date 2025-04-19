@@ -8,11 +8,15 @@ import 'package:flame/components.dart';
 import 'package:flame/game.dart';
 
 class SpaceGame extends FlameGame {
-  SpaceGame() : super(world: SpaceWorld());
+  SpaceGame()
+      : super(
+          world: SpaceWorld(),
+          camera: CameraComponent.withFixedResolution(width: 800, height: 800),
+        );
 }
 
 class SpaceWorld extends World
-    with HasCollisionDetection, TapCallbacks, DragCallbacks {
+    with HasCollisionDetection, TapCallbacks, DragCallbacks, HasGameReference {
   Earth earth = Earth();
   Player player = Player();
   Consumable consumable = Consumable(type: GenomeType.flight);
@@ -21,13 +25,17 @@ class SpaceWorld extends World
     add(earth);
     add(player);
     add(consumable);
-    debugMode = true;
+    parent?.debugMode = true;
+    camera?.follow(player);
     return super.onLoad();
   }
+
+  CameraComponent? get camera => game.camera;
 
   @override
   void onTapDown(TapDownEvent event) {
     super.onTapDown(event);
+
     print("onTapDown");
     if (player.isOnGround) {
       player.isOnGround = false;
