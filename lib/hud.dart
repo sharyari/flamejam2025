@@ -1,5 +1,4 @@
 import 'package:flame/components.dart';
-import 'package:spacegame/player.dart';
 import 'package:spacegame/genome.dart';
 import 'package:spacegame/game.dart';
 

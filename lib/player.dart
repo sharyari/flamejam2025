@@ -16,11 +16,12 @@ class Player extends SpriteAnimationGroupComponent<PlayerState>
 
   // traits
   // TODO: make into a map, then use map:merge with consumable
-  var energy = 100;
-  var max_energy = 100;
-  var jump_acceleration = 25;
-  var flap_acceleration = 5;
-  List<int> genes = [1, 1, 1, 1];
+  Map<Trait, int> genes = {
+    Trait.maxEnergy: 100,
+    Trait.flapAcceleration: 5,
+    Trait.jumpAcceleration: 25,
+  };
+  //100, 100, 25, 5];
 
   bool isOnGround = true;
 
@@ -50,6 +51,7 @@ class Player extends SpriteAnimationGroupComponent<PlayerState>
 
     final flyImage = await Flame.images.load('player/alien_fly.png');
     final idleImage = await Flame.images.load('player/alien_idle_flap.png');
+    int energy = genes[Trait.maxEnergy]!;
 
     final flySpriteSheet =
         SpriteSheet(image: flyImage, srcSize: Vector2(435, 587));
@@ -103,10 +105,16 @@ class Player extends SpriteAnimationGroupComponent<PlayerState>
   void tapped() {
     if (isOnGround) {
       isOnGround = false;
-      acceleration.y -= jump_acceleration;
+      acceleration.y -= genes[Trait.jumpAcceleration]!;
       velocity.y -= 0;
     } else {
-      acceleration.y -= flap_acceleration;
+      acceleration.y -= genes[Trait.flapAcceleration]!;
     }
   }
+}
+
+enum Trait {
+  maxEnergy,
+  jumpAcceleration,
+  flapAcceleration,
 }

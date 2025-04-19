@@ -1,6 +1,7 @@
 import 'package:flame/components.dart';
 import 'package:flutter/material.dart';
 import 'package:spacegame/hud.dart';
+import 'package:spacegame/player.dart';
 
 class Genome extends RectangleComponent with HasGameReference {
   int num = 0;
@@ -8,7 +9,7 @@ class Genome extends RectangleComponent with HasGameReference {
   static const double geneHeight = 64;
   static const double genomeWidth = numGenes * geneHeight;
   static const double genomeHeight = geneHeight;
-  List<int> genes = [];
+  Map<Trait, int> genes;
 
   Genome(this.genes);
 
@@ -17,12 +18,13 @@ class Genome extends RectangleComponent with HasGameReference {
     position = Vector2(Hud.padding, Hud.padding);
     size = Vector2(genomeWidth, genomeHeight);
     priority = 10;
-    for (var i = 0; i < numGenes; i++) {
+    int i = 0;
+    for (int v in genes.values) {
       final genePosition = Vector2(
         i * geneHeight,
         0,
       );
-      add(Gene(i, genes[i]));
+      add(Gene(i, v));
     }
   }
 }
