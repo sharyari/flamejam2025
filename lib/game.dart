@@ -5,6 +5,7 @@ import 'package:flame/events.dart';
 import 'package:flame/game.dart';
 import 'package:spacegame/earth.dart';
 import 'package:spacegame/genomes/bird.dart';
+import 'package:spacegame/genomes/frog.dart';
 import 'package:spacegame/hud.dart';
 import 'package:spacegame/player.dart';
 
@@ -27,12 +28,15 @@ class SpaceWorld extends World
   final earth = Earth();
   final player = Player();
   final bird = Bird();
+  final frog = Frog();
 
   @override
   FutureOr<void> onLoad() {
     add(earth);
     add(player);
     add(bird);
+    add(frog);
+
     parent?.debugMode = true;
     camera?.follow(player);
     //
