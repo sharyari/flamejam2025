@@ -6,13 +6,12 @@ import 'package:flame/flame.dart';
 import 'package:flame/sprite.dart';
 import 'package:spacegame/consumable.dart';
 import 'package:spacegame/earth.dart';
+import 'package:spacegame/gravitation.dart';
 
 enum PlayerState { idle, jumping, falling, flying }
 
 class Player extends SpriteAnimationGroupComponent<PlayerState>
-    with CollisionCallbacks, HasGameReference {
-  final velocity = Vector2(0, 0);
-  final acceleration = Vector2(0, 0);
+    with CollisionCallbacks, HasGameReference, Gravitation {
   List<Map<Trait, int>> genePool = [];
   Map<Trait, int> calcGenes() {
     Map<Trait, int> result = {
@@ -29,8 +28,6 @@ class Player extends SpriteAnimationGroupComponent<PlayerState>
   }
 
   late Map<Trait, int> genes = calcGenes();
-
-  bool isOnGround = true;
 
   @override
   void onCollisionStart(
@@ -106,10 +103,6 @@ class Player extends SpriteAnimationGroupComponent<PlayerState>
       current = PlayerState.idle;
       return;
     }
-
-    acceleration.y += 37 * dt;
-    velocity.y += acceleration.y * dt * 40;
-    position += velocity * dt;
 
     if (velocity.y > 0) {
       current = PlayerState.falling;

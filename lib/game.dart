@@ -29,11 +29,7 @@ class SpaceWorld extends World
   final earth = Earth();
   final player = Player();
   final bird = Bird();
-  final frog1 = Frog();
-  final frog2 = Frog();
-  final frog3 = Frog();
-  final frog4 = Frog();
-  final frog5 = Frog();
+  final frogs = List.generate(10, (_) => Frog());
   final background = Background();
 
   @override
@@ -41,13 +37,10 @@ class SpaceWorld extends World
     add(earth);
     add(player);
     add(bird);
-    add(frog1);
-    add(frog2);
-    add(frog3);
-    add(frog4);
-    add(frog5);
+    addAll(frogs);
+
     add(background);
-    parent?.debugMode = true;
+    // parent?.debugMode = true;
     camera?.follow(player);
     //
     return super.onLoad();

@@ -3,15 +3,18 @@ import 'dart:math';
 
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
+import 'package:flame/effects.dart';
 import 'package:flame/flame.dart';
+import 'package:flame/geometry.dart';
 import 'package:flame/sprite.dart';
+import 'package:flutter/material.dart';
 import 'package:spacegame/consumable.dart';
 import 'package:spacegame/earth.dart';
-import 'package:spacegame/player.dart';
+import 'package:spacegame/gravitation.dart';
 
 enum FrogState { idle, jumping }
 
-class Frog extends Consumable<FrogState> {
+class Frog extends Consumable<FrogState> with Gravitation {
   final velocity = Vector2(0, 0);
   final acceleration = Vector2(0, 0);
 
@@ -50,7 +53,9 @@ class Frog extends Consumable<FrogState> {
     animations = {
       FrogState.idle: SpriteAnimation.spriteList([spriteSheet.getSprite(0, 0)],
           stepTime: 1),
-      FrogState.jumping: spriteSheet.createAnimation(row: 0, stepTime: 0.1),
+      FrogState.jumping: SpriteAnimation.spriteList(
+          [spriteSheet.getSprite(0, 1)],
+          stepTime: 1),
     };
     current = FrogState.idle;
 
@@ -63,58 +68,59 @@ class Frog extends Consumable<FrogState> {
         .y;
 
     position.x = Random().nextInt(800).toDouble();
+
     add(RectangleHitbox());
   }
 
   @override
   void update(double dt) {
     super.update(dt);
-    if (!isOnGround && current == FrogState.idle) {
-      current = FrogState.jumping;
-    }
-    if (isOnGround) {
+    if (isOnGround && current == FrogState.jumping) {
+      print("Frog landed!");
       current = FrogState.idle;
-      return;
     }
-    if (current != FrogState.jumping && isOnGround) {
+    if (current != FrogState.jumping &&
+        isOnGround &&
+        children.query<TimerComponent>().isEmpty) {
       // jump after at least half a second
       print("Frog might jump!");
-      Future.delayed(
-        Duration(milliseconds: Random().nextInt(1000) + 1000),
-        () {
-          print("Frog jumping!");
-
-          jump(dt);
-        },
+      add(
+        TimerComponent(
+          period: Random().nextDouble() * 2,
+          onTick: () {
+            print("Frog jumping!");
+            jump();
+          },
+          removeOnFinish: true,
+        ),
       );
-      current = FrogState.idle;
     }
   }
 
-  void jump(double dt) {
+  final random = Random();
+
+  void jump() {
     if (current == FrogState.jumping) {
+      print("Frog already jumping!");
       return;
     }
 
     current = FrogState.jumping;
 
     // Random jump direction (x axis)
-    double randomDirection = Random().nextDouble() * 2 - 1; // Between -1 and 1
+    double randomAngle = random.nextDouble() *
+        ((tau / 4) - (tau / 12)) *
+        (random.nextBool() ? 1 : -1);
 
-    // Horizontal jump component - frogs jump outward, not just up
-    acceleration.x = randomDirection * 25 * dt;
+    Vector2 direction = Vector2(0, -1)
+      ..rotate(randomAngle)
+      ..scale(130);
 
-    // Vertical jump component - frogs have powerful legs
-    acceleration.y = 50 * dt; // Stronger upward force than the angel
-
-    // Apply acceleration to velocity
-    velocity.x += acceleration.x * dt * 40;
-    velocity.y += acceleration.y * dt * 40;
-
-    // Apply velocity to position
-    position += velocity * dt;
-
-    // Optional: Add some rotation for more natural frog movement
-    // rotation += randomDirection * 0.2;
+    add(
+      MoveByEffect(
+        direction,
+        EffectController(duration: 0.5, curve: Curves.bounceInOut),
+      ),
+    );
   }
 }
