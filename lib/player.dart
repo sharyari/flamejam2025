@@ -47,18 +47,23 @@ class Player extends SpriteAnimationGroupComponent<PlayerState>
   Future<void> onLoad() async {
     super.onLoad();
 
-    final image = await Flame.images.load('playerAlien.png');
-    final spriteSheet = SpriteSheet(image: image, srcSize: Vector2(445, 591));
+    final flyImage = await Flame.images.load('player/alien_fly.png');
+    final idleImage = await Flame.images.load('player/alien_idle_flap.png');
+
+    final flySpriteSheet =
+        SpriteSheet(image: flyImage, srcSize: Vector2(435, 587));
+    final idleSpriteSheet =
+        SpriteSheet(image: idleImage, srcSize: Vector2(435, 587));
 
     animations = {
-      PlayerState.jumping: SpriteAnimation.spriteList(
-          [spriteSheet.getSprite(0, 4)],
-          stepTime: 1),
       PlayerState.idle: SpriteAnimation.spriteList(
-          [spriteSheet.getSprite(0, 0)],
+          [idleSpriteSheet.getSprite(0, 0)],
           stepTime: 1),
+      PlayerState.jumping:
+          idleSpriteSheet.createAnimation(row: 0, stepTime: 0.1),
+      PlayerState.flying: flySpriteSheet.createAnimation(row: 0, stepTime: 0.1),
       PlayerState.falling:
-          SpriteAnimation.spriteList([spriteSheet.getSprite(0, 2)], stepTime: 1)
+          flySpriteSheet.createAnimation(row: 0, stepTime: 0.2),
     };
     current = PlayerState.idle;
 
