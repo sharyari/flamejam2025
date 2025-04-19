@@ -6,36 +6,48 @@ import 'package:flame/components.dart';
 import 'package:flame/flame.dart';
 import 'package:flame/sprite.dart';
 import 'package:spacegame/consumable.dart';
+import 'package:spacegame/earth.dart';
+import 'package:spacegame/player.dart';
 
-class Frog extends Consumable {
+enum FrogState { idle, jumping }
+
+class Frog extends Consumable<FrogState> {
   final velocity = Vector2(0, 0);
   final acceleration = Vector2(0, 0);
 
-  Frog() : super(type: GenomeType.flight) {
-    super.position = Vector2(300, -20);
-    super.size = Vector2(100, 100);
+  bool isOnGround = true;
+
+  Frog() : super(type: GenomeType.jump) {
+    size = Vector2(100, 100);
   }
 
   @override
   FutureOr<void> onLoad() async {
     final image = await Flame.images.load('consumables/frog.png');
-    final spriteSheet = SpriteSheet(image: image, srcSize: Vector2(321, 332));
 
-    animation = spriteSheet.createAnimation(row: 0, stepTime: 0.1);
+    final spriteSheet = SpriteSheet(image: image, srcSize: Vector2.all(372));
+
+    animations = {
+      FrogState.idle: SpriteAnimation.spriteList([spriteSheet.getSprite(0, 0)],
+          stepTime: 1),
+      FrogState.jumping: spriteSheet.createAnimation(row: 0, stepTime: 0.1),
+    };
+    current = FrogState.idle;
+
+    anchor = Anchor.bottomCenter;
+    size = Vector2(50, 50);
+    position.y = game.world.children
+        .query<Earth>()
+        .first
+        .positionOfAnchor(Anchor.topCenter)
+        .y;
+
+    position.x = Random().nextInt(800).toDouble();
     add(RectangleHitbox());
-
-    return super.onLoad();
   }
 
   @override
   void update(double dt) {
     super.update(dt);
-    acceleration.x = 10; // Set acceleration instead of adding to it
-    velocity.x += acceleration.x * dt; // Apply acceleration with time scaling
-
-    // Use sin function for oscillating movement
-    position.x -= velocity.x * dt;
-    position.y = sin(position.x * 0.1) *
-        5.0; // Adjust multipliers for amplitude/frequency
   }
 }
