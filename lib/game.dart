@@ -17,9 +17,10 @@ class SpaceGame extends FlameGame {
 
 class SpaceWorld extends World
     with HasCollisionDetection, TapCallbacks, DragCallbacks, HasGameReference {
-  Earth earth = Earth();
-  Player player = Player();
-  Consumable consumable = Consumable(type: GenomeType.flight);
+  final earth = Earth();
+  final player = Player();
+  final consumable = Consumable(type: GenomeType.flight);
+
   @override
   FutureOr<void> onLoad() {
     add(earth);
@@ -27,6 +28,7 @@ class SpaceWorld extends World
     add(consumable);
     parent?.debugMode = true;
     camera?.follow(player);
+    //
     return super.onLoad();
   }
 
@@ -37,13 +39,7 @@ class SpaceWorld extends World
     super.onTapDown(event);
 
     print("onTapDown");
-    if (player.isOnGround) {
-      player.isOnGround = false;
-      player.acceleration.y -= 25;
-      player.velocity.y -= 0;
-    } else {
-      player.acceleration.y -= 5;
-    }
+    player.tapped();
   }
 
   @override

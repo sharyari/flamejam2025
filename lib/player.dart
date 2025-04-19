@@ -2,14 +2,20 @@ import 'dart:async';
 
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
+import 'package:spacegame/consumable.dart';
 import 'package:spacegame/earth.dart';
 
 class Player extends SpriteComponent with CollisionCallbacks, HasGameReference {
   final velocity = Vector2(0, 0);
   final acceleration = Vector2(0, 0);
-  bool isOnGround = true;
 
-  Player();
+  // traits
+  var energy = 100;
+  var max_energy = 100;
+  var jump_acceleration = 25;
+  var flap_acceleration = 5;
+
+  bool isOnGround = true;
 
   @override
   void onCollisionStart(
@@ -20,7 +26,7 @@ class Player extends SpriteComponent with CollisionCallbacks, HasGameReference {
       velocity.setZero();
       acceleration.setZero();
       isOnGround = true;
-    }
+    } else if (other is Consumable) {}
   }
 
   @override
@@ -34,6 +40,7 @@ class Player extends SpriteComponent with CollisionCallbacks, HasGameReference {
 
   @override
   FutureOr<void> onLoad() async {
+    super.onLoad();
     sprite = await Sprite.load('player.png');
     super.anchor = Anchor.bottomCenter;
     super.size = Vector2(35, 35);
@@ -43,8 +50,6 @@ class Player extends SpriteComponent with CollisionCallbacks, HasGameReference {
         .positionOfAnchor(Anchor.topCenter)
         .y;
     add(RectangleHitbox());
-
-    return super.onLoad();
   }
 
   @override
@@ -55,5 +60,15 @@ class Player extends SpriteComponent with CollisionCallbacks, HasGameReference {
     acceleration.y += 9.81 * dt;
     velocity.y += acceleration.y * dt;
     position += velocity * dt;
+  }
+
+  void tapped() {
+    if (isOnGround) {
+      isOnGround = false;
+      acceleration.y -= jump_acceleration;
+      velocity.y -= 0;
+    } else {
+      acceleration.y -= flap_acceleration;
+    }
   }
 }

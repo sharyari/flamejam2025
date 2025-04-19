@@ -1,9 +1,9 @@
-import 'package:spacegame/game.dart';
 import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
+import 'package:spacegame/game.dart';
 
 void main() {
-  runApp(GameWidget(game: SpaceGame()));
+  runApp(const GameWidget.controlled(gameFactory: SpaceGame.new));
 }
 
 class MyApp extends StatelessWidget {

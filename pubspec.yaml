@@ -18,6 +18,5 @@ flutter:
 
   assets:
     - assets/images/
-    - assets/images/player.png
     - assets/images/consumables/flight.png
 
