@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flame/events.dart';
 import 'package:spacegame/consumable.dart';
+import 'package:spacegame/genomes/bird.dart';
 import 'package:spacegame/player.dart';
 import 'package:spacegame/earth.dart';
 import 'package:flame/components.dart';
@@ -19,13 +20,13 @@ class SpaceWorld extends World
     with HasCollisionDetection, TapCallbacks, DragCallbacks, HasGameReference {
   final earth = Earth();
   final player = Player();
-  final consumable = Consumable(type: GenomeType.flight);
+  final bird = Bird();
 
   @override
   FutureOr<void> onLoad() {
     add(earth);
     add(player);
-    add(consumable);
+    add(bird);
     parent?.debugMode = true;
     camera?.follow(player);
     //
