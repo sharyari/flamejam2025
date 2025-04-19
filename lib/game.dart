@@ -3,9 +3,10 @@ import 'dart:async';
 import 'package:flame/components.dart';
 import 'package:flame/events.dart';
 import 'package:flame/game.dart';
+import 'package:spacegame/background.dart';
+import 'package:spacegame/consumables/frog.dart';
 import 'package:spacegame/earth.dart';
 import 'package:spacegame/genomes/bird.dart';
-import 'package:spacegame/genomes/frog.dart';
 import 'package:spacegame/hud.dart';
 import 'package:spacegame/player.dart';
 
@@ -29,6 +30,7 @@ class SpaceWorld extends World
   final player = Player();
   final bird = Bird();
   final frog = Frog();
+  final background = Background();
 
   @override
   FutureOr<void> onLoad() {
@@ -36,7 +38,7 @@ class SpaceWorld extends World
     add(player);
     add(bird);
     add(frog);
-
+    add(background);
     parent?.debugMode = true;
     camera?.follow(player);
     //
