@@ -17,7 +17,7 @@ class Genome extends RowComponent with HasGameReference {
   @override
   Future<void> onLoad() async {
     position = Vector2(Hud.padding, Hud.padding);
-    size = Vector2(genomeWidth, genomeHeight);
+    size = Vector2(0, genomeHeight);
     priority = 10;
     int i = 0;
     for (int v in genes.values) {

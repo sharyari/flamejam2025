@@ -25,7 +25,12 @@ class SpaceGame extends FlameGame<SpaceWorld> {
 }
 
 class SpaceWorld extends World
-    with HasCollisionDetection, TapCallbacks, DragCallbacks, HasGameReference {
+    with
+        HasCollisionDetection,
+        TapCallbacks,
+        DragCallbacks,
+        HasGameReference,
+        HasTimeScale {
   final earth = Earth();
   final player = Player();
   final bird = Bird();

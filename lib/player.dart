@@ -47,6 +47,7 @@ class Player extends SpriteAnimationGroupComponent<PlayerState>
         game.world.remove(other);
       } else {
         game.world.hud.popup(genePool, other.genes);
+        game.world.remove(other);
       }
     }
 
