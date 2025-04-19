@@ -5,15 +5,23 @@ import 'package:spacegame/consumable.dart';
 import 'package:spacegame/genomes/bird.dart';
 import 'package:spacegame/player.dart';
 import 'package:spacegame/earth.dart';
+import 'package:spacegame/hud.dart';
+
 import 'package:flame/components.dart';
 import 'package:flame/game.dart';
 
-class SpaceGame extends FlameGame {
+class SpaceGame extends FlameGame with HasGameReference {
   SpaceGame()
       : super(
           world: SpaceWorld(),
           camera: CameraComponent.withFixedResolution(width: 800, height: 800),
         );
+
+  @override
+  onLoad() {
+    super.onLoad();
+    camera?.viewport.add(Hud(game.size.x, game.size.y));
+  }
 }
 
 class SpaceWorld extends World

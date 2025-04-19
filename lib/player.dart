@@ -10,6 +10,7 @@ class Player extends SpriteComponent with CollisionCallbacks, HasGameReference {
   final acceleration = Vector2(0, 0);
 
   // traits
+  // TODO: make into a map, then use map:merge with consumable
   var energy = 100;
   var max_energy = 100;
   var jump_acceleration = 25;
