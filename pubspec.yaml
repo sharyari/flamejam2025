@@ -18,8 +18,8 @@ flutter:
 
   assets:
     - assets/images/
-    - assets/images/consumables/flight.png
-    - assets/images/player/alien_fly.png
-    - assets/images/player/alien_idle_flap.png
+    - assets/images/backgrounds/
+    - assets/images/consumables/
+    - assets/images/player/
 
 
