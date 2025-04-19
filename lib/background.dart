@@ -4,7 +4,7 @@ import 'package:flame/flame.dart';
 class Background extends SpriteComponent with HasGameReference {
   @override
   Future<void> onLoad() async {
-    final image = await Flame.images.load('backgrounds/space_1.png');
+    final image = await Flame.images.load('backgrounds/space_2.png');
     anchor = Anchor.center;
     sprite = Sprite(
       image,
