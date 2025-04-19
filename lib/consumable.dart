@@ -30,7 +30,7 @@ class Consumable extends SpriteAnimationComponent with CollisionCallbacks {
   @override
   FutureOr<void> onLoad() async {
     final image =
-        await Flame.images.load("consumables/" + type.genomeName + ".png");
+        await Flame.images.load('consumables/' + type.genomeName + '.png');
     final spriteSheet = SpriteSheet(image: image, srcSize: Vector2.all(372));
 
     animation = spriteSheet.createAnimation(row: 0, stepTime: 0.1);

@@ -2,11 +2,9 @@ import 'dart:async';
 
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
-import 'package:flame/events.dart';
 import 'package:spacegame/earth.dart';
 
-class Player extends SpriteComponent
-    with DragCallbacks, TapCallbacks, CollisionCallbacks, HasGameReference {
+class Player extends SpriteComponent with CollisionCallbacks, HasGameReference {
   final velocity = Vector2(0, 0);
   final acceleration = Vector2(0, 0);
   bool isOnGround = true;
@@ -57,13 +55,5 @@ class Player extends SpriteComponent
     acceleration.y += 9.81 * dt;
     velocity.y += acceleration.y * dt;
     position += velocity * dt;
-  }
-
-  @override
-  void onTapDown(TapDownEvent event) {
-    super.onTapDown(event);
-    isOnGround = false;
-    acceleration.y -= 25;
-    velocity.y -= 0;
   }
 }
