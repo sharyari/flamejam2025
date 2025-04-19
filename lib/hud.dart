@@ -1,6 +1,7 @@
 import 'package:flame/components.dart';
 import 'package:spacegame/genome.dart';
 import 'package:spacegame/game.dart';
+import 'package:spacegame/player.dart';
 
 class Hud extends RectangleComponent with HasGameReference<SpaceGame> {
   static const double padding = 8;
@@ -16,4 +17,6 @@ class Hud extends RectangleComponent with HasGameReference<SpaceGame> {
       add(playerGenome);
     });
   }
+
+  void popup(List<Map<Trait, int>> genePool, Map<Trait, int> candidate) {}
 }

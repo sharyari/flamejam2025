@@ -20,7 +20,7 @@ class SpaceGame extends FlameGame<SpaceWorld> {
   @override
   void onLoad() {
     super.onLoad();
-    camera.viewport.add(Hud());
+    camera.viewport.add(this.world.hud);
   }
 }
 
@@ -30,6 +30,7 @@ class SpaceWorld extends World
   final player = Player();
   final bird = Bird();
   final frogs = List.generate(10, (_) => Frog());
+  final hud = Hud();
   final background = Background();
 
   @override

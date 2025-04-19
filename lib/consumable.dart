@@ -14,7 +14,7 @@ enum GenomeType {
 class Consumable<T> extends SpriteAnimationGroupComponent<T>
     with CollisionCallbacks, HasGameReference<SpaceGame> {
   final GenomeType type;
-  late final Map<Trait, int> gene;
+  late final Map<Trait, int> genes;
 
   Consumable({required this.type});
 }

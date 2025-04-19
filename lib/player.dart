@@ -7,11 +7,13 @@ import 'package:flame/sprite.dart';
 import 'package:spacegame/consumable.dart';
 import 'package:spacegame/earth.dart';
 import 'package:spacegame/gravitation.dart';
+import 'package:spacegame/game.dart';
+import 'package:spacegame/hud.dart';
 
 enum PlayerState { idle, jumping, falling, flying }
 
 class Player extends SpriteAnimationGroupComponent<PlayerState>
-    with CollisionCallbacks, HasGameReference, Gravitation {
+    with CollisionCallbacks, HasGameReference<SpaceGame>, Gravitation {
   List<Map<Trait, int>> genePool = [];
   Map<Trait, int> calcGenes() {
     Map<Trait, int> result = {
@@ -33,13 +35,18 @@ class Player extends SpriteAnimationGroupComponent<PlayerState>
   void onCollisionStart(
       Set<Vector2> intersectionPoint, PositionComponent other) {
     super.onCollisionStart(intersectionPoint, other);
+    print("have collision, $other");
     if (other is Earth) {
       velocity.setZero();
       acceleration.setZero();
       isOnGround = true;
     } else if (other is Consumable) {
       if (genePool.length < 3) {
+        print("genPool len: $genePool.length");
         genePool.add(other.genes);
+        game.world.remove(other);
+      } else {
+        game.world.hud.popup(genePool, other.genes);
       }
     }
   }
@@ -84,8 +91,6 @@ class Player extends SpriteAnimationGroupComponent<PlayerState>
           flySpriteSheet.createAnimation(row: 0, stepTime: 0.2),
     };
     current = PlayerState.idle;
-
-    add(RectangleHitbox());
 
     super.anchor = Anchor.bottomCenter;
     super.size = Vector2(100, 100);
