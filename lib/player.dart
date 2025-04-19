@@ -2,10 +2,15 @@ import 'dart:async';
 
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
+import 'package:flame/flame.dart';
+import 'package:flame/sprite.dart';
 import 'package:spacegame/consumable.dart';
 import 'package:spacegame/earth.dart';
 
-class Player extends SpriteComponent with CollisionCallbacks, HasGameReference {
+enum PlayerState { idle, jumping, falling, flying }
+
+class Player extends SpriteAnimationGroupComponent<PlayerState>
+    with CollisionCallbacks, HasGameReference {
   final velocity = Vector2(0, 0);
   final acceleration = Vector2(0, 0);
 
@@ -41,10 +46,26 @@ class Player extends SpriteComponent with CollisionCallbacks, HasGameReference {
   @override
   Future<void> onLoad() async {
     super.onLoad();
-    final image = await game.images.load('player.png');
-    sprite = Sprite(image);
+
+    final image = await Flame.images.load('playerAlien.png');
+    final spriteSheet = SpriteSheet(image: image, srcSize: Vector2(445, 591));
+
+    animations = {
+      PlayerState.jumping: SpriteAnimation.spriteList(
+          [spriteSheet.getSprite(0, 4)],
+          stepTime: 1),
+      PlayerState.idle: SpriteAnimation.spriteList(
+          [spriteSheet.getSprite(0, 0)],
+          stepTime: 1),
+      PlayerState.falling:
+          SpriteAnimation.spriteList([spriteSheet.getSprite(0, 2)], stepTime: 1)
+    };
+    current = PlayerState.idle;
+
+    add(RectangleHitbox());
+
     super.anchor = Anchor.bottomCenter;
-    super.size = Vector2(35, 35);
+    super.size = Vector2(100, 100);
     super.position.y = game.world.children
         .query<Earth>()
         .first
@@ -55,12 +76,22 @@ class Player extends SpriteComponent with CollisionCallbacks, HasGameReference {
 
   @override
   void update(double dt) {
+    super.update(dt);
+    if (!isOnGround && current == PlayerState.idle) {
+      current = PlayerState.jumping;
+    }
     if (isOnGround) {
+      current = PlayerState.idle;
       return;
     }
-    acceleration.y += 40.81 * dt;
-    velocity.y += acceleration.y * dt;
+
+    acceleration.y += 37 * dt;
+    velocity.y += acceleration.y * dt * 40;
     position += velocity * dt;
+
+    if (velocity.y > 0) {
+      current = PlayerState.falling;
+    }
   }
 
   void tapped() {
