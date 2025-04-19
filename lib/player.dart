@@ -13,15 +13,22 @@ class Player extends SpriteAnimationGroupComponent<PlayerState>
     with CollisionCallbacks, HasGameReference {
   final velocity = Vector2(0, 0);
   final acceleration = Vector2(0, 0);
+  List<Map<Trait, int>> genePool = [];
+  Map<Trait, int> calcGenes() {
+    Map<Trait, int> result = {
+      Trait.maxEnergy: 0,
+      Trait.jumpAcceleration: 0,
+      Trait.flapAcceleration: 0,
+    };
+    for (Map<Trait, int> g in genePool) {
+      for (Trait trait in g.keys) {
+        result[trait] = (result[trait] ?? 0) + g[trait]!;
+      }
+    }
+    return result;
+  }
 
-  // traits
-  // TODO: make into a map, then use map:merge with consumable
-  Map<Trait, int> genes = {
-    Trait.maxEnergy: 100,
-    Trait.flapAcceleration: 5,
-    Trait.jumpAcceleration: 25,
-  };
-  //100, 100, 25, 5];
+  late Map<Trait, int> genes = calcGenes();
 
   bool isOnGround = true;
 
@@ -51,6 +58,13 @@ class Player extends SpriteAnimationGroupComponent<PlayerState>
 
     final flyImage = await Flame.images.load('player/alien_fly.png');
     final idleImage = await Flame.images.load('player/alien_idle_flap.png');
+    Map<Trait, int> genes = {
+      Trait.maxEnergy: 100,
+      Trait.flapAcceleration: 5,
+      Trait.jumpAcceleration: 25,
+    };
+    genePool.add(genes);
+    print('Genepool $genePool');
     int energy = genes[Trait.maxEnergy]!;
 
     final flySpriteSheet =

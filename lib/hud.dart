@@ -11,7 +11,9 @@ class Hud extends RectangleComponent with HasGameReference<SpaceGame> {
     size = Vector2(
         Genome.genomeWidth + 2 * padding, Genome.genomeHeight + 2 * padding);
     position = Vector2(game.size.x - size.x, game.size.y - size.y);
-    Genome playerGenome = Genome(game.world.player.genes);
-    add(playerGenome);
+    return game.world.player.loaded.then((_) {
+      Genome playerGenome = Genome(game.world.player.genes);
+      add(playerGenome);
+    });
   }
 }
