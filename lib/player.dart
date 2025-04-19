@@ -49,6 +49,8 @@ class Player extends SpriteAnimationGroupComponent<PlayerState>
         game.world.hud.popup(genePool, other.genes);
       }
     }
+
+    position.y = other.positionOfAnchor(Anchor.topCenter).y;
   }
 
   @override
@@ -76,16 +78,16 @@ class Player extends SpriteAnimationGroupComponent<PlayerState>
     int energy = genes[Trait.maxEnergy]!;
 
     final flySpriteSheet =
-        SpriteSheet(image: flyImage, srcSize: Vector2(435, 587));
+        SpriteSheet.fromColumnsAndRows(image: flyImage, columns: 3, rows: 1);
     final idleSpriteSheet =
-        SpriteSheet(image: idleImage, srcSize: Vector2(435, 587));
+        SpriteSheet.fromColumnsAndRows(image: idleImage, columns: 3, rows: 1);
 
     animations = {
       PlayerState.idle: SpriteAnimation.spriteList(
           [idleSpriteSheet.getSprite(0, 0)],
           stepTime: 1),
       PlayerState.jumping:
-          idleSpriteSheet.createAnimation(row: 0, stepTime: 0.1),
+          flySpriteSheet.createAnimation(row: 0, stepTime: 0.1),
       PlayerState.flying: flySpriteSheet.createAnimation(row: 0, stepTime: 0.1),
       PlayerState.falling:
           flySpriteSheet.createAnimation(row: 0, stepTime: 0.2),

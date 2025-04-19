@@ -11,6 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:spacegame/consumable.dart';
 import 'package:spacegame/earth.dart';
 import 'package:spacegame/gravitation.dart';
+import 'package:spacegame/player.dart';
 
 enum FrogState { idle, jumping }
 
@@ -20,9 +21,7 @@ class Frog extends Consumable<FrogState> with Gravitation {
 
   bool isOnGround = true;
   late final Map<Trait, int> genes = randomGene();
-  Frog() : super(type: GenomeType.jump) {
-    size = Vector2(50, 50);
-  }
+  Frog() : super(type: GenomeType.jump);
 
   @override
   void onCollisionStart(
@@ -32,6 +31,7 @@ class Frog extends Consumable<FrogState> with Gravitation {
       velocity.setZero();
       acceleration.setZero();
       isOnGround = true;
+      position.y = other.positionOfAnchor(Anchor.topCenter).y;
     } else if (other is Consumable) {}
   }
 
@@ -60,7 +60,7 @@ class Frog extends Consumable<FrogState> with Gravitation {
     current = FrogState.idle;
 
     anchor = Anchor.bottomCenter;
-    size = Vector2(25, 25);
+    size = Vector2.all(random.nextDouble() * 20 + 25);
     position.y = game.world.children
         .query<Earth>()
         .first
@@ -84,19 +84,16 @@ class Frog extends Consumable<FrogState> with Gravitation {
   void update(double dt) {
     super.update(dt);
     if (isOnGround && current == FrogState.jumping) {
-      print("Frog landed!");
       current = FrogState.idle;
     }
     if (current != FrogState.jumping &&
         isOnGround &&
         children.query<TimerComponent>().isEmpty) {
       // jump after at least half a second
-      print("Frog might jump!");
       add(
         TimerComponent(
           period: Random().nextDouble() * 2,
           onTick: () {
-            print("Frog jumping!");
             jump();
           },
           removeOnFinish: true,
@@ -122,7 +119,7 @@ class Frog extends Consumable<FrogState> with Gravitation {
 
     Vector2 direction = Vector2(0, -1)
       ..rotate(randomAngle)
-      ..scale(130);
+      ..scale(random.nextDouble() * 300);
 
     add(
       MoveByEffect(
