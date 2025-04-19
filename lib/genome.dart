@@ -1,11 +1,12 @@
 import 'package:flame/components.dart';
+import 'package:flame/experimental.dart';
 import 'package:flutter/material.dart';
 import 'package:spacegame/hud.dart';
 import 'package:spacegame/player.dart';
 
-class Genome extends RectangleComponent with HasGameReference {
+class Genome extends RowComponent with HasGameReference {
   int num = 0;
-  static const int numGenes = 4;
+  static const int numGenes = 3;
   static const double geneHeight = 64;
   static const double genomeWidth = numGenes * geneHeight;
   static const double genomeHeight = geneHeight;
