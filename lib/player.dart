@@ -58,7 +58,7 @@ class Player extends SpriteComponent with CollisionCallbacks, HasGameReference {
     if (isOnGround) {
       return;
     }
-    acceleration.y += 13.81 * dt;
+    acceleration.y += 40.81 * dt;
     velocity.y += acceleration.y * dt;
     position += velocity * dt;
   }

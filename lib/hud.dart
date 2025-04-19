@@ -1,5 +1,5 @@
 import 'package:flame/components.dart';
-import 'package:spacegame/Player.dart';
+//import 'package:spacegame/Player.dart';
 
 class Hud extends RectangleComponent with HasGameReference {
   int num = 0;
@@ -17,8 +17,8 @@ class Hud extends RectangleComponent with HasGameReference {
 
   @override
   void update(double dt) {
-    Player player = game.world.children.query<Player>().first;
-    num = player.energy;
+    // Player player = game.world.children.query<Player>().first;
+    // num = player.energy;
 
     super.update(dt);
   }
