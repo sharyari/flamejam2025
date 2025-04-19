@@ -7,7 +7,9 @@ import 'package:flame/flame.dart';
 import 'package:flame/sprite.dart';
 import 'package:spacegame/consumable.dart';
 
-class Bird extends Consumable {
+enum BirdState { flying }
+
+class Bird extends Consumable<BirdState> {
   final velocity = Vector2(0, 0);
   final acceleration = Vector2(0, 0);
 
@@ -18,10 +20,16 @@ class Bird extends Consumable {
 
   @override
   FutureOr<void> onLoad() async {
-    final image = await Flame.images.load('consumables/flight.png');
-    final spriteSheet = SpriteSheet(image: image, srcSize: Vector2.all(372));
+    final flyImage = await Flame.images.load('consumables/flight.png');
 
-    animation = spriteSheet.createAnimation(row: 0, stepTime: 0.1);
+    final flySpriteSheet =
+        SpriteSheet(image: flyImage, srcSize: Vector2.all(372));
+
+    animations = {
+      BirdState.flying: flySpriteSheet.createAnimation(row: 0, stepTime: 0.1),
+    };
+    current = BirdState.flying;
+
     add(RectangleHitbox());
 
     return super.onLoad();
