@@ -1,16 +1,14 @@
 import 'dart:async';
 
-import 'package:flame/events.dart';
-import 'package:spacegame/consumable.dart';
-import 'package:spacegame/genomes/bird.dart';
-import 'package:spacegame/player.dart';
-import 'package:spacegame/earth.dart';
-import 'package:spacegame/hud.dart';
-
 import 'package:flame/components.dart';
+import 'package:flame/events.dart';
 import 'package:flame/game.dart';
+import 'package:spacegame/earth.dart';
+import 'package:spacegame/genomes/bird.dart';
+import 'package:spacegame/hud.dart';
+import 'package:spacegame/player.dart';
 
-class SpaceGame extends FlameGame with HasGameReference {
+class SpaceGame extends FlameGame {
   SpaceGame()
       : super(
           world: SpaceWorld(),
@@ -18,9 +16,9 @@ class SpaceGame extends FlameGame with HasGameReference {
         );
 
   @override
-  onLoad() {
+  void onLoad() {
     super.onLoad();
-    camera?.viewport.add(Hud(game.size.x, game.size.y));
+    camera.viewport.add(Hud());
   }
 }
 
@@ -47,13 +45,11 @@ class SpaceWorld extends World
   void onTapDown(TapDownEvent event) {
     super.onTapDown(event);
 
-    print("onTapDown");
     player.tapped();
   }
 
   @override
   void onDragUpdate(DragUpdateEvent event) {
-    print("drag event");
     player.velocity.x += event.deviceDelta.x;
   }
 }
