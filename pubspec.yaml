@@ -1,5 +1,5 @@
-name: syzygy
-description: Syzygy Flame game
+name: spacegame
+description: Space Game
 version: 0.0.0
 publish_to: none
 
@@ -8,12 +8,14 @@ environment:
   flutter: ^3.13.0
 
 dependencies:
+  flame: ^1.28.0
+  flame_lint: ^1.3.0
   flutter:
     sdk: flutter
-  flame: ^1.27.0
-  flame_lint: ^0.1.2
 
 flutter:
   uses-material-design: true
 
-
+  assets:
+    - assets/images/
+    - assets/images/player.png
