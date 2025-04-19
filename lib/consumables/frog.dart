@@ -18,14 +18,14 @@ class Frog extends Consumable<FrogState> {
   bool isOnGround = true;
 
   Frog() : super(type: GenomeType.jump) {
-    size = Vector2(100, 100);
+    size = Vector2(50, 50);
   }
 
   @override
   FutureOr<void> onLoad() async {
     final image = await Flame.images.load('consumables/frog.png');
 
-    final spriteSheet = SpriteSheet(image: image, srcSize: Vector2.all(372));
+    final spriteSheet = SpriteSheet(image: image, srcSize: Vector2(281, 300));
 
     animations = {
       FrogState.idle: SpriteAnimation.spriteList([spriteSheet.getSprite(0, 0)],
