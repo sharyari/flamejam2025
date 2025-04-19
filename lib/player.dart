@@ -21,7 +21,6 @@ class Player extends SpriteComponent with CollisionCallbacks, HasGameReference {
   void onCollisionStart(
       Set<Vector2> intersectionPoint, PositionComponent other) {
     super.onCollisionStart(intersectionPoint, other);
-
     if (other is Earth) {
       velocity.setZero();
       acceleration.setZero();
@@ -39,9 +38,10 @@ class Player extends SpriteComponent with CollisionCallbacks, HasGameReference {
   }
 
   @override
-  FutureOr<void> onLoad() async {
+  Future<void> onLoad() async {
     super.onLoad();
-    sprite = await Sprite.load('player.png');
+    final image = await game.images.load('player.png');
+    sprite = Sprite(image);
     super.anchor = Anchor.bottomCenter;
     super.size = Vector2(35, 35);
     super.position.y = game.world.children
@@ -57,7 +57,7 @@ class Player extends SpriteComponent with CollisionCallbacks, HasGameReference {
     if (isOnGround) {
       return;
     }
-    acceleration.y += 9.81 * dt;
+    acceleration.y += 13.81 * dt;
     velocity.y += acceleration.y * dt;
     position += velocity * dt;
   }
