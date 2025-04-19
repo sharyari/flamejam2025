@@ -9,7 +9,7 @@ import 'package:spacegame/genomes/frog.dart';
 import 'package:spacegame/hud.dart';
 import 'package:spacegame/player.dart';
 
-class SpaceGame extends FlameGame {
+class SpaceGame extends FlameGame<SpaceWorld> {
   SpaceGame()
       : super(
           world: SpaceWorld(),

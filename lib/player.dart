@@ -20,6 +20,7 @@ class Player extends SpriteAnimationGroupComponent<PlayerState>
   var max_energy = 100;
   var jump_acceleration = 25;
   var flap_acceleration = 5;
+  List<int> genes = [1, 1, 1, 1];
 
   bool isOnGround = true;
 
