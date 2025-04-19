@@ -19,7 +19,7 @@ class Frog extends Consumable<FrogState> with Gravitation {
   final acceleration = Vector2(0, 0);
 
   bool isOnGround = true;
-
+  late final Map<Trait, int> genes = randomGene();
   Frog() : super(type: GenomeType.jump) {
     size = Vector2(50, 50);
   }
@@ -70,6 +70,14 @@ class Frog extends Consumable<FrogState> with Gravitation {
     position.x = Random().nextInt(800).toDouble();
 
     add(RectangleHitbox());
+  }
+
+  Map<Trait, int> randomGene() {
+    return {
+      Trait.maxEnergy: 4,
+      Trait.jumpAcceleration: 4,
+      Trait.flapAcceleration: 4,
+    };
   }
 
   @override

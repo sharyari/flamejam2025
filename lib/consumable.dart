@@ -1,6 +1,7 @@
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 import 'package:spacegame/game.dart';
+import 'package:spacegame/player.dart';
 
 enum GenomeType {
   flight(genomeName: 'flight'),
@@ -13,6 +14,7 @@ enum GenomeType {
 class Consumable<T> extends SpriteAnimationGroupComponent<T>
     with CollisionCallbacks, HasGameReference<SpaceGame> {
   final GenomeType type;
+  late final Map<Trait, int> gene;
 
   Consumable({required this.type});
 }

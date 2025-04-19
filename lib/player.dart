@@ -37,7 +37,11 @@ class Player extends SpriteAnimationGroupComponent<PlayerState>
       velocity.setZero();
       acceleration.setZero();
       isOnGround = true;
-    } else if (other is Consumable) {}
+    } else if (other is Consumable) {
+      if (genePool.length < 3) {
+        genePool.add(other.genes);
+      }
+    }
   }
 
   @override
