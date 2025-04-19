@@ -41,6 +41,8 @@ linux/
 macos/
 pubspec.lock
 web/
+windows/
+
 
 
 # Symbolication related
