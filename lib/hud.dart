@@ -4,12 +4,33 @@ import 'package:spacegame/player.dart';
 
 class Hud extends RectangleComponent with HasGameReference {
   int num = 0;
+  static int numGenes = 4;
+  static double innerPadding = 8;
+  static double geneHeight = 64;
+  double hudWidth = 80;
+  double hudHeight = (numGenes * geneHeight + 2 * innerPadding).toDouble();
+  int xPadding = 30;
+  int yPadding = 30;
+
+  List genes = [0, 0, 0, 0];
+
   @override
   Future<void> onLoad() async {
-    add(TextComponent(text: 'Energy: $num'));
-    position = Vector2(0, game.size.y - 150);
-    size = Vector2(game.size.x, 150);
-    paint.color = Colors.blueGrey;
+    position = Vector2(
+        game.size.x - hudWidth - xPadding, game.size.y - hudHeight - yPadding);
+    size = Vector2(hudWidth, hudHeight);
+    paint.color = Colors.blue;
+    priority = 10;
+    for (int i = 0; i < numGenes; i++) {
+      Vector2 genePosition =
+          Vector2(innerPadding, innerPadding + i * geneHeight);
+      print("adding small box");
+      add(RectangleComponent(
+          position: genePosition,
+          size: Vector2(geneHeight, geneHeight),
+          paint: Paint()..color = Colors.red,
+          priority: 100));
+    }
   }
 
   @override
