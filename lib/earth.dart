@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 import 'package:flutter/material.dart';
 
@@ -10,5 +11,6 @@ class Earth extends RectangleComponent with HasGameReference {
     anchor = Anchor.bottomCenter;
     position.y = game.size.y / 2;
     paint.color = Colors.green;
+    add(RectangleHitbox());
   }
 }

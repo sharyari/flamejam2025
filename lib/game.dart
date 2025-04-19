@@ -9,14 +9,14 @@ class SpaceGame extends FlameGame {
   SpaceGame() : super(world: SpaceWorld());
 }
 
-class SpaceWorld extends World {
-  Player player = Player();
+class SpaceWorld extends World with HasCollisionDetection {
   Earth earth = Earth();
+  Player player = Player();
   @override
   FutureOr<void> onLoad() {
-    add(player);
     add(earth);
-    // TODO: implement onLoad
+    add(player);
+    debugMode = true;
     return super.onLoad();
   }
 }
