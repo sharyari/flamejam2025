@@ -23,43 +23,30 @@ class Hud extends RectangleComponent with HasGameReference<SpaceGame> {
 
     return game.world.player.loaded.then((_) {
       final playerGenome =
-          Genome(game.world.player.genes, game.world.player.animation!);
+          Genome(game.world.player.genes, game.world.player.animation!, -1);
       add(playerGenome);
     });
   }
 
-  Future<void> popup(List<Consumable> genePool, Consumable candidate) async {
+  Future<void> popup(List<Consumable> genePool) async {
     final newPos = game.size / 2;
-    final buttonSize = Vector2(200, 50);
     final targetSize = Vector2(size.x,
-        (genePool.length + 2) * (Genome.genomeHeight + padding) + 1 * padding);
+        (genePool.length + 1) * (Genome.genomeHeight + padding) + 1 * padding);
 
     game.world.pause();
-    print("current gene $genePool");
 
     for (var i = 0; i < genePool.length; i++) {
       var pos = i + 1;
       final gen = Genome(
-          genePool[i].genes, (await genePool[i].getAnimations()).values.first);
+        genePool[i].genes,
+        (await genePool[i].getAnimations()).values.first,
+        pos,
+      );
       gen.mounted.then((_) {
         gen.position.y += (Genome.genomeHeight + padding) * pos;
       });
       add(gen);
     }
-    final otherGen = Genome(candidate.genes, candidate.animation!);
-    otherGen.mounted.then((_) async {
-      otherGen.position.y +=
-          (Genome.genomeHeight + padding) * (genePool.length + 1);
-      add(
-        SpriteButtonComponent(
-          button: await Sprite.load('player.png'),
-          size: buttonSize,
-          position: otherGen.position + Vector2(0, otherGen.size.y + padding),
-          onPressed: popDown,
-        ),
-      );
-    });
-    add(otherGen);
     add(AnchorToEffect(Anchor.center, EffectController(duration: 1)));
     add(
       MoveToEffect(
@@ -75,10 +62,11 @@ class Hud extends RectangleComponent with HasGameReference<SpaceGame> {
     );
   }
 
-  void popDown() {
+  void popDown(int pos) {
     removeAll(children.query<Genome>());
-    removeAll(children.query<SpriteButtonComponent>());
-    add(Genome(game.world.player.genes, game.world.player.animation!));
+    game.world.player.genePool.removeAt(pos - 1);
+    game.world.player.genes = game.world.player.calcGenes();
+    add(Genome(game.world.player.genes, game.world.player.animation!, -1));
     add(
       MoveToEffect(
         initialPosition,

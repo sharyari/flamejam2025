@@ -80,10 +80,11 @@ class Frog extends Consumable<FrogState> with Gravitation {
   }
 
   Map<Trait, int> randomGene() {
+    final random = Random();
     return {
-      Trait.maxEnergy: 4,
-      Trait.jumpAcceleration: 4,
-      Trait.flapAcceleration: 4,
+      Trait.maxEnergy: random.nextInt(6) + 1,
+      Trait.jumpAcceleration: random.nextInt(6) + 1,
+      Trait.flapAcceleration: random.nextInt(6) + 1,
     };
   }
 

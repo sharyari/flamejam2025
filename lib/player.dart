@@ -51,7 +51,8 @@ class Player extends SpriteAnimationGroupComponent<PlayerState>
         game.world.remove(other);
       } else if (!isColliding) {
         isColliding = true;
-        game.world.hud.popup(genePool, other);
+        genePool.add(other);
+        game.world.hud.popup(genePool);
         game.world.remove(other);
       }
     }

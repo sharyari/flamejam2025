@@ -1,10 +1,13 @@
 import 'package:flame/components.dart';
+import 'package:flame/events.dart';
 import 'package:flame/experimental.dart';
 import 'package:flutter/material.dart';
+import 'package:spacegame/game.dart';
 import 'package:spacegame/hud.dart';
 import 'package:spacegame/player.dart';
 
-class Genome extends RowComponent with HasGameReference {
+class Genome extends RowComponent
+    with HasGameReference<SpaceGame>, TapCallbacks {
   int num = 0;
   static const int numGenes = 3;
   static const double geneHeight = 64;
@@ -12,17 +15,27 @@ class Genome extends RowComponent with HasGameReference {
   static const double genomeHeight = geneHeight;
   Map<Trait, int> genes = {};
   SpriteAnimation animation;
+  int pos = 0;
+  Genome(this.genes, this.animation, this.pos);
 
-  Genome(this.genes, this.animation);
+  @override
+  void onTapDown(TapDownEvent event) {
+    super.onTapDown(event);
+    // If this genome is at position >= 1, call popdown
+    if (pos >= 1) {
+      final hud = game.world.hud.popDown(pos);
+    }
+  }
 
   @override
   Future<void> onLoad() async {
     position = Vector2(Hud.padding, Hud.padding);
-    size = Vector2(0, genomeHeight);
+    size =
+        Vector2(genomeWidth, genomeHeight); // Set proper size for hit testing
     priority = 10;
-    const i = 0;
+    int i = 0;
     for (final v in genes.values) {
-      add(Gene(i, v));
+      add(Gene(i++, v)); // Increment i for each gene
     }
 
     final spriteComponent = SpriteAnimationComponent(
