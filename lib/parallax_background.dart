@@ -14,10 +14,10 @@ class ParallaxBackground extends PositionComponent
   Future<void> onLoad() async {
     final parallax = await game.loadParallax(
       [
-        ParallaxImageData('backgrounds/ground_paralax_element_3.png'),
-        //ParallaxImageData('backgrounds/ground_paralax_element_4.png'),
-        //ParallaxImageData('backgrounds/ground_paralax_element_1.png'),
-        //ParallaxImageData('backgrounds/ground_paralax_element_2.png'),
+        ParallaxImageData('backgrounds/ground_parallax_element_3.png'),
+        //ParallaxImageData('backgrounds/ground_parallax_element_4.png'),
+        //ParallaxImageData('backgrounds/ground_parallax_element_1.png'),
+        //ParallaxImageData('backgrounds/ground_parallax_element_2.png'),
       ],
       velocityMultiplierDelta: Vector2(1.2, 0),
       repeat: ImageRepeat.noRepeat,
