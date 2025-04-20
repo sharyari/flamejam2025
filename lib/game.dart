@@ -41,11 +41,12 @@ class SpaceWorld extends World
   @override
   FutureOr<void> onLoad() {
     add(earth);
+    add(background);
+
     add(player);
     add(bird);
     addAll(frogs);
 
-    add(background);
     // parent?.debugMode = true;
     camera?.follow(player);
     //

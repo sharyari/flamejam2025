@@ -1,7 +1,6 @@
 import 'package:flame/components.dart';
 import 'package:flame/experimental.dart';
 import 'package:flutter/material.dart';
-import 'package:spacegame/consumable.dart';
 import 'package:spacegame/hud.dart';
 import 'package:spacegame/player.dart';
 

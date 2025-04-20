@@ -11,7 +11,7 @@ class Background extends SpriteComponent with HasGameReference {
       srcPosition: Vector2(0, 0),
       srcSize: Vector2(2732, 2048),
     );
-    position = Vector2(0, 0);
+    position.y = game.size.y;
     size = Vector2(2732, 2048);
     priority = -1;
   }
