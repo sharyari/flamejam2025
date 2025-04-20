@@ -13,7 +13,6 @@ jobs:
       - uses: subosito/flutter-action@v2
       - uses: bluefireteam/flutter-gh-pages@v9
         with:
-          targetBranch: main
           baseHref: /flamejam2025/
           webRenderer: canvaskit
           compileToWasm: true
