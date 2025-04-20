@@ -1,4 +1,4 @@
-# syzygy
+# SpaceGame
 
 A new Flutter project.
 
