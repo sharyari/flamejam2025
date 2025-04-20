@@ -8,7 +8,7 @@ class Genome extends RowComponent with HasGameReference {
   int num = 0;
   static const int numGenes = 3;
   static const double geneHeight = 64;
-  static const double genomeWidth = numGenes * geneHeight;
+  static const double genomeWidth = (numGenes + 1) * geneHeight;
   static const double genomeHeight = geneHeight;
   Map<Trait, int> genes = {};
   SpriteAnimation animation;

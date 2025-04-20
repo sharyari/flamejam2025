@@ -32,7 +32,7 @@ class Hud extends RectangleComponent with HasGameReference<SpaceGame> {
     final newPos = game.size / 2;
     final buttonSize = Vector2(200, 50);
     final targetSize = Vector2(
-      size.x + padding + Genome.genomeHeight,
+      size.x,
       (genePool.length + 1) * (Genome.genomeHeight + padding) +
           2 * padding +
           buttonSize.y,
@@ -42,8 +42,8 @@ class Hud extends RectangleComponent with HasGameReference<SpaceGame> {
     print("current gene $genePool");
 
     for (var i = 1; i < genePool.length; i++) {
-      final gen =
-          Genome(genePool[i].genes, genePool[i].animations!.values.first);
+      final gen = Genome(
+          genePool[i].genes, (await genePool[i].getAnimations()).values.first);
       gen.mounted.then((_) {
         gen.position.y += (Genome.genomeHeight + padding) * i;
       });

@@ -71,10 +71,13 @@ class Player extends SpriteAnimationGroupComponent<PlayerState>
 
     final flyImage = await Flame.images.load('player/alien_fly.png');
     final idleImage = await Flame.images.load('player/alien_idle_flap.png');
+    Frog frog1 = Frog();
+    Frog frog2 = Frog();
+    Frog frog3 = Frog();
+    genePool.add(frog1);
+    genePool.add(frog2);
+    genePool.add(frog3);
 
-    genePool.add(Frog());
-    genePool.add(Frog());
-    genePool.add(Frog());
     genes = calcGenes();
     final flySpriteSheet =
         SpriteSheet.fromColumnsAndRows(image: flyImage, columns: 3, rows: 1);

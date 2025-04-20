@@ -51,12 +51,11 @@ class Frog extends Consumable<FrogState> with Gravitation {
   }
 
   @override
-  FutureOr<void> onLoad() async {
+  Future<Map<FrogState, SpriteAnimation>> getAnimations() async {
     final image = await Flame.images.load('consumables/frog.png');
-
     final spriteSheet = SpriteSheet(image: image, srcSize: Vector2(281, 300));
 
-    animations = {
+    return {
       FrogState.idle: SpriteAnimation.spriteList(
         [spriteSheet.getSprite(0, 0)],
         stepTime: 1,
@@ -66,13 +65,18 @@ class Frog extends Consumable<FrogState> with Gravitation {
         stepTime: 1,
       ),
     };
+  }
+
+  @override
+  FutureOr<void> onLoad() async {
+    animations = await getAnimations();
     current = FrogState.idle;
 
     anchor = Anchor.bottomCenter;
     size = Vector2.all(random.nextDouble() * 20 + 25);
 
     position.x = Random().nextInt(800).toDouble();
-    position.y = game.world.earth.positionOfAnchor(Anchor.topCenter).y;
+    game.world.earth.positionOfAnchor(Anchor.topCenter).y;
 
     print('Frog initial pos: $position');
     add(RectangleHitbox());

@@ -11,10 +11,11 @@ enum GenomeType {
   const GenomeType({required this.genomeName});
 }
 
-class Consumable<T> extends SpriteAnimationGroupComponent<T>
+abstract class Consumable<T> extends SpriteAnimationGroupComponent<T>
     with CollisionCallbacks, HasGameReference<SpaceGame> {
   final GenomeType type;
   late final Map<Trait, int> genes;
+  Future<Map<T, SpriteAnimation>> getAnimations();
 
   Consumable({required this.type});
 }

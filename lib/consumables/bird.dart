@@ -22,17 +22,22 @@ class Bird extends Consumable<BirdState> {
   }
 
   @override
-  FutureOr<void> onLoad() async {
-    final flyImage = await Flame.images.load('consumables/fishbird.png');
+  Future<Map<BirdState, SpriteAnimation>> getAnimations() async {
+    final flyImage = await Flame.images.load('consumables/flight.png');
 
     final flySpriteSheet =
         //SpriteSheet(image: flyImage, srcSize: Vector2.all(372)); bird1
         //SpriteSheet(image: flyImage, srcSize: Vector2.all(500)); bird2
         SpriteSheet(image: flyImage, srcSize: Vector2(769, 882)); // bird3
 
-    animations = {
+    return {
       BirdState.flying: flySpriteSheet.createAnimation(row: 0, stepTime: 0.1),
     };
+  }
+
+  @override
+  FutureOr<void> onLoad() async {
+    animations = await getAnimations();
     current = BirdState.flying;
 
     add(RectangleHitbox());
