@@ -5,6 +5,7 @@ import 'package:flame/components.dart';
 import 'package:flame/flame.dart';
 import 'package:flame/sprite.dart';
 import 'package:spacegame/consumable.dart';
+import 'package:spacegame/consumables/bird.dart';
 import 'package:spacegame/consumables/frog.dart';
 import 'package:spacegame/earth.dart';
 import 'package:spacegame/game.dart';
@@ -42,6 +43,7 @@ class Player extends SpriteAnimationGroupComponent<PlayerState>
       velocity.setZero();
       acceleration.setZero();
       isOnGround = true;
+      position.y = other.positionOfAnchor(Anchor.topCenter).y;
     } else if (other is Consumable) {
       if (genePool.length < 3) {
         genePool.add(other);
@@ -52,8 +54,6 @@ class Player extends SpriteAnimationGroupComponent<PlayerState>
         game.world.remove(other);
       }
     }
-
-    position.y = other.positionOfAnchor(Anchor.topCenter).y;
   }
 
   @override
@@ -72,16 +72,10 @@ class Player extends SpriteAnimationGroupComponent<PlayerState>
     final flyImage = await Flame.images.load('player/alien_fly.png');
     final idleImage = await Flame.images.load('player/alien_idle_flap.png');
 
-    // Create initial consumable with default genes
-    final initialConsumable = Frog();
-    initialConsumable.genes = {
-      Trait.maxEnergy: 100,
-      Trait.flapAcceleration: 5,
-      Trait.jumpAcceleration: 25,
-    };
-    genePool.add(initialConsumable);
+    genePool.add(Frog());
+    genePool.add(Frog());
+    genePool.add(Frog());
     genes = calcGenes();
-
     final flySpriteSheet =
         SpriteSheet.fromColumnsAndRows(image: flyImage, columns: 3, rows: 1);
     final idleSpriteSheet =
@@ -102,11 +96,10 @@ class Player extends SpriteAnimationGroupComponent<PlayerState>
 
     super.anchor = Anchor.bottomCenter;
     super.size = Vector2(100, 100);
-    super.position.y = game.world.children
-        .query<Earth>()
-        .first
-        .positionOfAnchor(Anchor.topCenter)
-        .y;
+    super.position.y = game.world.earth.positionOfAnchor(Anchor.topCenter).y;
+
+    print('Player initial pos: $position');
+
     add(RectangleHitbox());
   }
 

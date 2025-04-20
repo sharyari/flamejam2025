@@ -24,7 +24,7 @@ class Frog extends Consumable<FrogState> with Gravitation {
   @override
   bool isOnGround = true;
   @override
-  late final Map<Trait, int> genes = randomGene();
+  late Map<Trait, int> genes = randomGene();
   Frog() : super(type: GenomeType.jump);
 
   @override
@@ -74,6 +74,7 @@ class Frog extends Consumable<FrogState> with Gravitation {
     position.x = Random().nextInt(800).toDouble();
     position.y = game.world.earth.positionOfAnchor(Anchor.topCenter).y;
 
+    print('Frog initial pos: $position');
     add(RectangleHitbox());
   }
 

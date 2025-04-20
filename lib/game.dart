@@ -34,22 +34,24 @@ class SpaceWorld extends World
   final earth = Earth();
   final player = Player();
   final bird = Bird();
-  final frogs = List.generate(10, (_) => Frog());
+  late final List<Frog> frogs;
   final hud = Hud();
   final background = Background();
 
   @override
-  FutureOr<void> onLoad() {
-    add(earth);
+  FutureOr<void> onLoad() async {
+    pause();
+    await add(earth);
     add(background);
 
     add(player);
     add(bird);
+    frogs = List.generate(10, (_) => Frog());
     addAll(frogs);
 
     // parent?.debugMode = true;
     camera?.follow(player);
-    //
+    resume();
     return super.onLoad();
   }
 

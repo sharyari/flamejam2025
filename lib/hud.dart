@@ -39,8 +39,11 @@ class Hud extends RectangleComponent with HasGameReference<SpaceGame> {
     );
 
     game.world.pause();
+    print("current gene $genePool");
+
     for (var i = 1; i < genePool.length; i++) {
-      final gen = Genome(genePool[i].genes, genePool[i].animation!);
+      final gen =
+          Genome(genePool[i].genes, genePool[i].animations!.values.first);
       gen.mounted.then((_) {
         gen.position.y += (Genome.genomeHeight + padding) * i;
       });

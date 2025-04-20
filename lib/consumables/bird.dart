@@ -6,12 +6,15 @@ import 'package:flame/components.dart';
 import 'package:flame/flame.dart';
 import 'package:flame/sprite.dart';
 import 'package:spacegame/consumable.dart';
+import 'package:spacegame/player.dart';
 
 enum BirdState { flying }
 
 class Bird extends Consumable<BirdState> {
   final velocity = Vector2(0, 0);
   final acceleration = Vector2(0, 0);
+  @override
+  late Map<Trait, int> genes = randomGene();
 
   Bird() : super(type: GenomeType.flight) {
     super.position = Vector2(300, 0);
@@ -54,4 +57,12 @@ class Bird extends Consumable<BirdState> {
   ) {
     super.onCollisionStart(intersectionPoints, other);
   }
+}
+
+Map<Trait, int> randomGene() {
+  return {
+    Trait.maxEnergy: 4,
+    Trait.jumpAcceleration: 4,
+    Trait.flapAcceleration: 4,
+  };
 }
