@@ -11,12 +11,11 @@ class ParallaxBackground extends PositionComponent with HasGameReference {
   Future<void> onLoad() async {
     final parallax = await game.loadParallax(
       [
-        ParallaxImageData('backgrounds/background_paralax_element_1.png'),
-        ParallaxImageData('backgrounds/background_paralax_element_2.png'),
-        ParallaxImageData('backgrounds/background_paralax_element_3.png'),
-        ParallaxImageData('backgrounds/background_paralax_element_4.png'),
+        ParallaxImageData('backgrounds/ground_paralax_element_1.png'),
+        ParallaxImageData('backgrounds/ground_paralax_element_2.png'),
+        ParallaxImageData('backgrounds/ground_paralax_element_3.png'),
+        ParallaxImageData('backgrounds/ground_paralax_element_4.png'),
       ],
-      filterQuality: FilterQuality.none,
     );
     size = Vector2(2732, 700);
 

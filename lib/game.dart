@@ -43,10 +43,10 @@ class SpaceWorld extends World
   FutureOr<void> onLoad() async {
     pause();
     await game.images.loadAll([
-      'backgrounds/background_paralax_element_1.png',
-      'backgrounds/background_paralax_element_2.png',
-      'backgrounds/background_paralax_element_3.png',
-      'backgrounds/background_paralax_element_4.png',
+      'backgrounds/ground_paralax_element_1.png',
+      'backgrounds/ground_paralax_element_2.png',
+      'backgrounds/ground_paralax_element_3.png',
+      'backgrounds/ground_paralax_element_4.png',
       'backgrounds/ground_tile_1.png',
     ]);
     await add(ParallaxBackground());
