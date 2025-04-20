@@ -14,5 +14,6 @@ jobs:
       - uses: bluefireteam/flutter-gh-pages@v9
         with:
           targetBranch: gh-pages
+          baseHref: /spacegame/
           webRenderer: canvaskit
           compileToWasm: true
