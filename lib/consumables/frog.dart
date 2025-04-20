@@ -70,11 +70,14 @@ class Frog extends Consumable<FrogState> with Gravitation {
 
     anchor = Anchor.bottomCenter;
     size = Vector2.all(random.nextDouble() * 20 + 25);
-    position.y = game.world.children
-        .query<Earth>()
-        .first
-        .positionOfAnchor(Anchor.topCenter)
-        .y;
+
+    await game.world.loaded.then((_) {
+      position.y = game.world.children
+          .query<Earth>()
+          .first
+          .positionOfAnchor(Anchor.topCenter)
+          .y;
+    });
 
     position.x = Random().nextInt(800).toDouble();
 
