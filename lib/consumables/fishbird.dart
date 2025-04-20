@@ -6,30 +6,38 @@ import 'package:flame/components.dart';
 import 'package:flame/flame.dart';
 import 'package:flame/sprite.dart';
 import 'package:spacegame/consumable.dart';
+import 'package:spacegame/player.dart';
 
-enum FishbirdState { flying }
+enum FishBirdState { flying }
 
-class Fishbird extends Consumable<FishbirdState> {
+class FishBird extends Consumable<FishBirdState> {
   final velocity = Vector2(0, 0);
   final acceleration = Vector2(0, 0);
+  @override
+  late Map<Trait, int> genes = randomGene();
 
-  Fishbird() : super(type: GenomeType.flight) {
-    super.position = Vector2(300, 0);
-    super.size = Vector2(100, 100);
+  FishBird() : super(type: GenomeType.flight) {
+    super.position = Vector2(300, -100);
+    super.size = Vector2(300, 300);
+  }
+
+  @override
+  Future<Map<FishBirdState, SpriteAnimation>> getAnimations() async {
+    final flyImage = await Flame.images.load('consumables/fishbird.png');
+
+    final flySpriteSheet =
+        SpriteSheet.fromColumnsAndRows(image: flyImage, columns: 3, rows: 1);
+
+    return {
+      FishBirdState.flying:
+          flySpriteSheet.createAnimation(row: 0, stepTime: 0.1),
+    };
   }
 
   @override
   FutureOr<void> onLoad() async {
-    final flyImage = await Flame.images.load('consumables/fishbird.png');
-
-    final flySpriteSheet =
-        SpriteSheet(image: flyImage, srcSize: Vector2.all(769));
-
-    animations = {
-      FishbirdState.flying:
-          flySpriteSheet.createAnimation(row: 0, stepTime: 0.1),
-    };
-    current = FishbirdState.flying;
+    animations = await getAnimations();
+    current = FishBirdState.flying;
 
     add(RectangleHitbox());
 
@@ -55,4 +63,12 @@ class Fishbird extends Consumable<FishbirdState> {
   ) {
     super.onCollisionStart(intersectionPoints, other);
   }
+}
+
+Map<Trait, int> randomGene() {
+  return {
+    Trait.maxEnergy: 4,
+    Trait.jumpAcceleration: 4,
+    Trait.flapAcceleration: 4,
+  };
 }

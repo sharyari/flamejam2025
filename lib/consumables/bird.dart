@@ -23,12 +23,10 @@ class Bird extends Consumable<BirdState> {
 
   @override
   Future<Map<BirdState, SpriteAnimation>> getAnimations() async {
-    final flyImage = await Flame.images.load('consumables/flight.png');
+    final flyImage = await Flame.images.load('consumables/bird.png');
 
     final flySpriteSheet =
-        //SpriteSheet(image: flyImage, srcSize: Vector2.all(372)); bird1
-        //SpriteSheet(image: flyImage, srcSize: Vector2.all(500)); bird2
-        SpriteSheet(image: flyImage, srcSize: Vector2(769, 882)); // bird3
+        SpriteSheet.fromColumnsAndRows(image: flyImage, columns: 3, rows: 1);
 
     return {
       BirdState.flying: flySpriteSheet.createAnimation(row: 0, stepTime: 0.1),

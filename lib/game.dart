@@ -5,6 +5,7 @@ import 'package:flame/events.dart';
 import 'package:flame/game.dart';
 import 'package:spacegame/background.dart';
 import 'package:spacegame/consumables/bird.dart';
+import 'package:spacegame/consumables/fishbird.dart';
 import 'package:spacegame/consumables/frog.dart';
 import 'package:spacegame/earth.dart';
 import 'package:spacegame/hud.dart';
@@ -35,6 +36,8 @@ class SpaceWorld extends World
   final earth = Earth();
   final player = Player();
   final bird = Bird();
+  final fishBird = FishBird();
+
   late final List<Frog> frogs;
   final hud = Hud();
   final background = Background();
@@ -56,6 +59,7 @@ class SpaceWorld extends World
 
     await add(player);
     add(bird);
+    add(fishBird);
     frogs = List.generate(10, (_) => Frog());
     addAll(frogs);
 

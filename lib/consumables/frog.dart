@@ -53,7 +53,9 @@ class Frog extends Consumable<FrogState> with Gravitation {
   @override
   Future<Map<FrogState, SpriteAnimation>> getAnimations() async {
     final image = await Flame.images.load('consumables/frog.png');
-    final spriteSheet = SpriteSheet(image: image, srcSize: Vector2(281, 300));
+
+    final spriteSheet =
+        SpriteSheet.fromColumnsAndRows(image: image, columns: 2, rows: 1);
 
     return {
       FrogState.idle: SpriteAnimation.spriteList(
