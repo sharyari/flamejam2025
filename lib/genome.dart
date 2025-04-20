@@ -1,6 +1,7 @@
 import 'package:flame/components.dart';
 import 'package:flame/experimental.dart';
 import 'package:flutter/material.dart';
+import 'package:spacegame/consumable.dart';
 import 'package:spacegame/hud.dart';
 import 'package:spacegame/player.dart';
 
@@ -10,9 +11,10 @@ class Genome extends RowComponent with HasGameReference {
   static const double geneHeight = 64;
   static const double genomeWidth = numGenes * geneHeight;
   static const double genomeHeight = geneHeight;
-  Map<Trait, int> genes;
+  Map<Trait, int> genes = {};
+  SpriteAnimation animation;
 
-  Genome(this.genes);
+  Genome(this.genes, this.animation);
 
   @override
   Future<void> onLoad() async {
@@ -23,6 +25,13 @@ class Genome extends RowComponent with HasGameReference {
     for (final v in genes.values) {
       add(Gene(i, v));
     }
+
+    final spriteComponent = SpriteAnimationComponent(
+      animation: animation,
+      size: Vector2(Genome.geneHeight, Genome.geneHeight),
+      position: Vector2(0, 0),
+    );
+    add(spriteComponent);
   }
 }
 

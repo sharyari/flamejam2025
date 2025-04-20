@@ -5,6 +5,7 @@ import 'package:flame/components.dart';
 import 'package:flame/flame.dart';
 import 'package:flame/sprite.dart';
 import 'package:spacegame/consumable.dart';
+import 'package:spacegame/consumables/frog.dart';
 import 'package:spacegame/earth.dart';
 import 'package:spacegame/game.dart';
 import 'package:spacegame/gravitation.dart';
@@ -13,16 +14,17 @@ enum PlayerState { idle, jumping, falling, flying }
 
 class Player extends SpriteAnimationGroupComponent<PlayerState>
     with CollisionCallbacks, HasGameReference<SpaceGame>, Gravitation {
-  List<Map<Trait, int>> genePool = [];
+  List<Consumable> genePool = [];
+
   Map<Trait, int> calcGenes() {
     final result = <Trait, int>{
       Trait.maxEnergy: 0,
       Trait.jumpAcceleration: 0,
       Trait.flapAcceleration: 0,
     };
-    for (final g in genePool) {
-      for (final trait in g.keys) {
-        result[trait] = (result[trait] ?? 0) + g[trait]!;
+    for (final consumable in genePool) {
+      for (final trait in consumable.genes.keys) {
+        result[trait] = (result[trait] ?? 0) + consumable.genes[trait]!;
       }
     }
     return result;
@@ -42,10 +44,11 @@ class Player extends SpriteAnimationGroupComponent<PlayerState>
       isOnGround = true;
     } else if (other is Consumable) {
       if (genePool.length < 3) {
-        genePool.add(other.genes);
+        genePool.add(other);
+        genes = calcGenes(); // Update genes after adding consumable
         game.world.remove(other);
       } else {
-        game.world.hud.popup(genePool, other.genes);
+        game.world.hud.popup(genePool, other);
         game.world.remove(other);
       }
     }
@@ -68,12 +71,16 @@ class Player extends SpriteAnimationGroupComponent<PlayerState>
 
     final flyImage = await Flame.images.load('player/alien_fly.png');
     final idleImage = await Flame.images.load('player/alien_idle_flap.png');
-    final genes = <Trait, int>{
+
+    // Create initial consumable with default genes
+    final initialConsumable = Frog();
+    initialConsumable.genes = {
       Trait.maxEnergy: 100,
       Trait.flapAcceleration: 5,
       Trait.jumpAcceleration: 25,
     };
-    genePool.add(genes);
+    genePool.add(initialConsumable);
+    genes = calcGenes();
 
     final flySpriteSheet =
         SpriteSheet.fromColumnsAndRows(image: flyImage, columns: 3, rows: 1);
