@@ -16,7 +16,7 @@ enum PlayerState { idle, jumping, falling, flying }
 class Player extends SpriteAnimationGroupComponent<PlayerState>
     with CollisionCallbacks, HasGameReference<SpaceGame>, Gravitation {
   List<Consumable> genePool = [];
-
+  bool isColliding = false;
   Map<Trait, int> calcGenes() {
     final result = <Trait, int>{
       Trait.maxEnergy: 0,
@@ -49,7 +49,8 @@ class Player extends SpriteAnimationGroupComponent<PlayerState>
         genePool.add(other);
         genes = calcGenes(); // Update genes after adding consumable
         game.world.remove(other);
-      } else {
+      } else if (!isColliding) {
+        isColliding = true;
         game.world.hud.popup(genePool, other);
         game.world.remove(other);
       }

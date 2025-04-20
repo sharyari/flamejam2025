@@ -31,27 +31,25 @@ class Hud extends RectangleComponent with HasGameReference<SpaceGame> {
   Future<void> popup(List<Consumable> genePool, Consumable candidate) async {
     final newPos = game.size / 2;
     final buttonSize = Vector2(200, 50);
-    final targetSize = Vector2(
-      size.x,
-      (genePool.length + 1) * (Genome.genomeHeight + padding) +
-          2 * padding +
-          buttonSize.y,
-    );
+    final targetSize = Vector2(size.x,
+        (genePool.length + 2) * (Genome.genomeHeight + padding) + 1 * padding);
 
     game.world.pause();
     print("current gene $genePool");
 
-    for (var i = 1; i < genePool.length; i++) {
+    for (var i = 0; i < genePool.length; i++) {
+      var pos = i + 1;
       final gen = Genome(
           genePool[i].genes, (await genePool[i].getAnimations()).values.first);
       gen.mounted.then((_) {
-        gen.position.y += (Genome.genomeHeight + padding) * i;
+        gen.position.y += (Genome.genomeHeight + padding) * pos;
       });
       add(gen);
     }
     final otherGen = Genome(candidate.genes, candidate.animation!);
     otherGen.mounted.then((_) async {
-      otherGen.position.y += (Genome.genomeHeight + padding) * genePool.length;
+      otherGen.position.y +=
+          (Genome.genomeHeight + padding) * (genePool.length + 1);
       add(
         SpriteButtonComponent(
           button: await Sprite.load('player.png'),
@@ -100,5 +98,6 @@ class Hud extends RectangleComponent with HasGameReference<SpaceGame> {
         onComplete: game.world.resume,
       ),
     );
+    game.world.player.isColliding = false;
   }
 }
