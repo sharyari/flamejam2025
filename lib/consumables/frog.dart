@@ -17,11 +17,6 @@ enum FrogState { idle, jumping }
 
 class Frog extends Consumable<FrogState> with Gravitation {
   @override
-  final velocity = Vector2(0, 0);
-  @override
-  final acceleration = Vector2(0, 0);
-
-  @override
   bool isOnGround = true;
   @override
   late Map<Trait, int> genes = randomGene();

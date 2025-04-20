@@ -1,8 +1,9 @@
 import 'package:flame/components.dart';
+import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
 
 mixin Gravitation on PositionComponent {
-  final velocity = Vector2(0, 0);
+  final velocity = NotifyingVector2(0, 0);
   final acceleration = Vector2(0, 0);
   bool isOnGround = true;
 
