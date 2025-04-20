@@ -13,7 +13,7 @@ class Earth extends SpriteComponent with HasGameReference {
       srcPosition: Vector2(0, 0),
       srcSize: Vector2(2732, 2048),
     );
-    size = Vector2(2732, 2048);
+    size = Vector2(2732, 203);
     anchor = Anchor.bottomCenter;
     position.y = game.size.y;
     add(RectangleHitbox());
