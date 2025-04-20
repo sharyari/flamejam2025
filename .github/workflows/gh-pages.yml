@@ -14,6 +14,6 @@ jobs:
       - uses: bluefireteam/flutter-gh-pages@v9
         with:
           targetBranch: gh-pages
-          baseHref: /spacegame/
+          baseHref: /flamejam2025/
           webRenderer: canvaskit
           compileToWasm: true
