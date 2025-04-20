@@ -8,6 +8,7 @@ import 'package:spacegame/consumables/bird.dart';
 import 'package:spacegame/consumables/frog.dart';
 import 'package:spacegame/earth.dart';
 import 'package:spacegame/hud.dart';
+import 'package:spacegame/parallax_background.dart';
 import 'package:spacegame/player.dart';
 
 class SpaceGame extends FlameGame<SpaceWorld> {
@@ -41,7 +42,16 @@ class SpaceWorld extends World
   @override
   FutureOr<void> onLoad() async {
     pause();
+    await game.images.loadAll([
+      'backgrounds/background_paralax_element_1.png',
+      'backgrounds/background_paralax_element_2.png',
+      'backgrounds/background_paralax_element_3.png',
+      'backgrounds/background_paralax_element_4.png',
+      'backgrounds/ground_tile_1.png',
+    ]);
+    await add(ParallaxBackground());
     await add(earth);
+
     add(background);
 
     await add(player);
