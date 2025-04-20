@@ -44,7 +44,7 @@ class SpaceWorld extends World
     await add(earth);
     add(background);
 
-    add(player);
+    await add(player);
     add(bird);
     frogs = List.generate(10, (_) => Frog());
     addAll(frogs);
