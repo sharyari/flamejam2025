@@ -19,19 +19,15 @@ class Genome extends RowComponent with HasGameReference {
     position = Vector2(Hud.padding, Hud.padding);
     size = Vector2(0, genomeHeight);
     priority = 10;
-    int i = 0;
-    for (int v in genes.values) {
-      final genePosition = Vector2(
-        i * geneHeight,
-        0,
-      );
+    const i = 0;
+    for (final v in genes.values) {
       add(Gene(i, v));
     }
   }
 }
 
 class Gene extends RectangleComponent {
-  var listPos = 0;
+  int listPos = 0;
   int value = 0;
   Gene(this.listPos, this.value);
   @override

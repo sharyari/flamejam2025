@@ -6,9 +6,8 @@ import 'package:flame/flame.dart';
 import 'package:flame/sprite.dart';
 import 'package:spacegame/consumable.dart';
 import 'package:spacegame/earth.dart';
-import 'package:spacegame/gravitation.dart';
 import 'package:spacegame/game.dart';
-import 'package:spacegame/hud.dart';
+import 'package:spacegame/gravitation.dart';
 
 enum PlayerState { idle, jumping, falling, flying }
 
@@ -16,13 +15,13 @@ class Player extends SpriteAnimationGroupComponent<PlayerState>
     with CollisionCallbacks, HasGameReference<SpaceGame>, Gravitation {
   List<Map<Trait, int>> genePool = [];
   Map<Trait, int> calcGenes() {
-    Map<Trait, int> result = {
+    final result = <Trait, int>{
       Trait.maxEnergy: 0,
       Trait.jumpAcceleration: 0,
       Trait.flapAcceleration: 0,
     };
-    for (Map<Trait, int> g in genePool) {
-      for (Trait trait in g.keys) {
+    for (final g in genePool) {
+      for (final trait in g.keys) {
         result[trait] = (result[trait] ?? 0) + g[trait]!;
       }
     }
@@ -33,16 +32,16 @@ class Player extends SpriteAnimationGroupComponent<PlayerState>
 
   @override
   void onCollisionStart(
-      Set<Vector2> intersectionPoint, PositionComponent other) {
+    Set<Vector2> intersectionPoint,
+    PositionComponent other,
+  ) {
     super.onCollisionStart(intersectionPoint, other);
-    print("have collision, $other");
     if (other is Earth) {
       velocity.setZero();
       acceleration.setZero();
       isOnGround = true;
     } else if (other is Consumable) {
       if (genePool.length < 3) {
-        print("genPool len: $genePool.length");
         genePool.add(other.genes);
         game.world.remove(other);
       } else {
@@ -69,14 +68,12 @@ class Player extends SpriteAnimationGroupComponent<PlayerState>
 
     final flyImage = await Flame.images.load('player/alien_fly.png');
     final idleImage = await Flame.images.load('player/alien_idle_flap.png');
-    Map<Trait, int> genes = {
+    final genes = <Trait, int>{
       Trait.maxEnergy: 100,
       Trait.flapAcceleration: 5,
       Trait.jumpAcceleration: 25,
     };
     genePool.add(genes);
-    print('Genepool $genePool');
-    int energy = genes[Trait.maxEnergy]!;
 
     final flySpriteSheet =
         SpriteSheet.fromColumnsAndRows(image: flyImage, columns: 3, rows: 1);
@@ -85,8 +82,9 @@ class Player extends SpriteAnimationGroupComponent<PlayerState>
 
     animations = {
       PlayerState.idle: SpriteAnimation.spriteList(
-          [idleSpriteSheet.getSprite(0, 0)],
-          stepTime: 1),
+        [idleSpriteSheet.getSprite(0, 0)],
+        stepTime: 1,
+      ),
       PlayerState.jumping:
           flySpriteSheet.createAnimation(row: 0, stepTime: 0.1),
       PlayerState.flying: flySpriteSheet.createAnimation(row: 0, stepTime: 0.1),

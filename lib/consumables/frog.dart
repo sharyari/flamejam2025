@@ -16,16 +16,22 @@ import 'package:spacegame/player.dart';
 enum FrogState { idle, jumping }
 
 class Frog extends Consumable<FrogState> with Gravitation {
+  @override
   final velocity = Vector2(0, 0);
+  @override
   final acceleration = Vector2(0, 0);
 
+  @override
   bool isOnGround = true;
+  @override
   late final Map<Trait, int> genes = randomGene();
   Frog() : super(type: GenomeType.jump);
 
   @override
   void onCollisionStart(
-      Set<Vector2> intersectionPoint, PositionComponent other) {
+    Set<Vector2> intersectionPoint,
+    PositionComponent other,
+  ) {
     super.onCollisionStart(intersectionPoint, other);
     if (other is Earth) {
       velocity.setZero();
@@ -51,11 +57,14 @@ class Frog extends Consumable<FrogState> with Gravitation {
     final spriteSheet = SpriteSheet(image: image, srcSize: Vector2(281, 300));
 
     animations = {
-      FrogState.idle: SpriteAnimation.spriteList([spriteSheet.getSprite(0, 0)],
-          stepTime: 1),
+      FrogState.idle: SpriteAnimation.spriteList(
+        [spriteSheet.getSprite(0, 0)],
+        stepTime: 1,
+      ),
       FrogState.jumping: SpriteAnimation.spriteList(
-          [spriteSheet.getSprite(0, 1)],
-          stepTime: 1),
+        [spriteSheet.getSprite(0, 1)],
+        stepTime: 1,
+      ),
     };
     current = FrogState.idle;
 
@@ -93,9 +102,7 @@ class Frog extends Consumable<FrogState> with Gravitation {
       add(
         TimerComponent(
           period: Random().nextDouble() * 2,
-          onTick: () {
-            jump();
-          },
+          onTick: jump,
           removeOnFinish: true,
         ),
       );
@@ -106,18 +113,17 @@ class Frog extends Consumable<FrogState> with Gravitation {
 
   void jump() {
     if (current == FrogState.jumping) {
-      print("Frog already jumping!");
       return;
     }
 
     current = FrogState.jumping;
 
     // Random jump direction (x axis)
-    double randomAngle = random.nextDouble() *
+    final randomAngle = random.nextDouble() *
         ((tau / 4) - (tau / 12)) *
         (random.nextBool() ? 1 : -1);
 
-    Vector2 direction = Vector2(0, -1)
+    final direction = Vector2(0, -1)
       ..rotate(randomAngle)
       ..scale(random.nextDouble() * 300);
 

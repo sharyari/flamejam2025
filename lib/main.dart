@@ -23,7 +23,7 @@ class MyApp extends StatelessWidget {
 }
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
+  const MyHomePage({required this.title, super.key});
 
   final String title;
 
@@ -41,14 +41,16 @@ class _MyHomePageState extends State<MyHomePage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             ElevatedButton(
-                onPressed: () {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                        builder: (_) => GameWidget(game: SpaceGame())),
-                  );
-                },
-                child: Text("Start")),
-            ElevatedButton(onPressed: () {}, child: Text("Rules")),
+              onPressed: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (_) => GameWidget(game: SpaceGame()),
+                  ),
+                );
+              },
+              child: const Text('Start'),
+            ),
+            ElevatedButton(onPressed: () {}, child: const Text('Rules')),
           ],
         ),
       ),
