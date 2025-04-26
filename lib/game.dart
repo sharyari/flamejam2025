@@ -15,21 +15,18 @@ import 'package:spacegame/parallax_background.dart';
 import 'package:spacegame/player.dart';
 
 class SpaceGame extends FlameGame<SpaceWorld> {
-  static const double baseWidth = 720;
-  static const double baseHeight = 1600;
-
-  SpaceGame()
-      : super(
-          world: SpaceWorld(),
-          camera: CameraComponent.withFixedResolution(
-              width: baseWidth * 0.7, // Increase width by 70%
-              height: baseHeight * 0.7), // Increase height by 70%
-        );
+  SpaceGame() : super(world: SpaceWorld());
 
   @override
   void onLoad() {
     super.onLoad();
     camera.viewport.add(world.hud);
+  }
+
+  @override
+  void onGameResize(Vector2 size) {
+    super.onGameResize(size);
+    camera.viewport.size.setFrom(size);
   }
 }
 
