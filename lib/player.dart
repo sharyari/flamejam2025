@@ -101,7 +101,7 @@ class Player extends SpriteAnimationGroupComponent<PlayerState>
 
     super.anchor = Anchor.bottomCenter;
     super.size = Vector2(100, 100);
-    super.position.y = game.world.earth.positionOfAnchor(Anchor.topCenter).y;
+    super.position.y = game.world.ground.positionOfAnchor(Anchor.topCenter).y;
 
     print('Player initial pos: $position');
 

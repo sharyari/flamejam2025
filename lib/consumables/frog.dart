@@ -73,7 +73,7 @@ class Frog extends Consumable<FrogState> with Gravitation {
     size = Vector2.all(random.nextDouble() * 20 + 25);
 
     position.x = Random().nextInt(800).toDouble();
-    position.y = game.world.earth.positionOfAnchor(Anchor.topCenter).y;
+    position.y = game.world.ground.positionOfAnchor(Anchor.topCenter).y;
 
     print('Frog initial pos: $position');
     add(RectangleHitbox());

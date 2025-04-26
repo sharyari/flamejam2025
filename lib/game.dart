@@ -37,7 +37,7 @@ class SpaceWorld extends World
         DragCallbacks,
         HasGameReference,
         HasTimeScale {
-  final earth = Ground();
+  final ground = Ground();
   final player = Player();
   final bird = Bird();
   final fishBird = FishBird();
@@ -57,7 +57,7 @@ class SpaceWorld extends World
       'backgrounds/ground_tile_1.png',
     ]);
     await add(ParallaxBackground());
-    await add(earth);
+    await add(ground);
 
     add(background);
 
