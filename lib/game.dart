@@ -1,6 +1,8 @@
 import 'dart:async';
+import 'dart:ui';
 
 import 'package:flame/components.dart';
+import 'package:flame/effects.dart';
 import 'package:flame/events.dart';
 import 'package:flame/game.dart';
 import 'package:spacegame/background.dart';
@@ -13,10 +15,15 @@ import 'package:spacegame/parallax_background.dart';
 import 'package:spacegame/player.dart';
 
 class SpaceGame extends FlameGame<SpaceWorld> {
+  static const double baseWidth = 720;
+  static const double baseHeight = 1600;
+
   SpaceGame()
       : super(
           world: SpaceWorld(),
-          camera: CameraComponent.withFixedResolution(width: 800, height: 800),
+          camera: CameraComponent.withFixedResolution(
+              width: baseWidth * 0.7, // Increase width by 70%
+              height: baseHeight * 0.7), // Increase height by 70%
         );
 
   @override
