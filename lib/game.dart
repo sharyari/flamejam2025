@@ -9,7 +9,7 @@ import 'package:spacegame/background.dart';
 import 'package:spacegame/consumables/bird.dart';
 import 'package:spacegame/consumables/fishbird.dart';
 import 'package:spacegame/consumables/frog.dart';
-import 'package:spacegame/earth.dart';
+import 'package:spacegame/ground.dart';
 import 'package:spacegame/hud.dart';
 import 'package:spacegame/parallax_background.dart';
 import 'package:spacegame/player.dart';
@@ -37,7 +37,7 @@ class SpaceWorld extends World
         DragCallbacks,
         HasGameReference,
         HasTimeScale {
-  final earth = Earth();
+  final earth = Ground();
   final player = Player();
   final bird = Bird();
   final fishBird = FishBird();

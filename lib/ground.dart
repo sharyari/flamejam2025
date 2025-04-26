@@ -6,7 +6,7 @@ import 'package:flame/components.dart';
 import 'package:flame/flame.dart';
 import 'package:flame/parallax.dart';
 
-class Earth extends PositionComponent with HasGameReference {
+class Ground extends PositionComponent with HasGameReference {
   @override
   Future<void> onLoad() async {
     final parallax = await game.loadParallax(
